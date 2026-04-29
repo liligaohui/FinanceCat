@@ -1,0 +1,68 @@
+[
+  {
+    "id": "overview",
+    "title": "What is the CFA?",
+    "level": "Introduction",
+    "description": "Program overview, exam structure, and how to use this guide."
+  },
+  {
+    "id": "l1-ethics",
+    "title": "Ethics & Professional Standards",
+    "level": "Level 1",
+    "description": "The Code of Ethics, Standards of Professional Conduct, and GIPS."
+  },
+  {
+    "id": "l1-quant",
+    "title": "Quantitative Methods",
+    "level": "Level 1",
+    "description": "Time value of money, statistics, probability, and hypothesis testing."
+  },
+  {
+    "id": "l1-economics",
+    "title": "Economics",
+    "level": "Level 1",
+    "description": "Micro and macroeconomics, monetary policy, and international trade."
+  },
+  {
+    "id": "l1-fra",
+    "title": "Financial Reporting & Analysis",
+    "level": "Level 1",
+    "description": "Financial statements, ratios, and accounting standards."
+  },
+  {
+    "id": "l1-corporate",
+    "title": "Corporate Issuers",
+    "level": "Level 1",
+    "description": "Capital structure, leverage, dividends, and working capital."
+  },
+  {
+    "id": "l1-equity",
+    "title": "Equity Investments",
+    "level": "Level 1",
+    "description": "Market structure, equity securities, and valuation fundamentals."
+  },
+  {
+    "id": "l1-fi",
+    "title": "Fixed Income",
+    "level": "Level 1",
+    "description": "Bond pricing, yield measures, duration, and credit risk."
+  },
+  {
+    "id": "l1-derivatives",
+    "title": "Derivatives",
+    "level": "Level 1",
+    "description": "Forwards, futures, options, and swaps."
+  },
+  {
+    "id": "l1-alternatives",
+    "title": "Alternative Investments",
+    "level": "Level 1",
+    "description": "Hedge funds, private equity, real estate, and commodities."
+  },
+  {
+    "id": "l1-portfolio",
+    "title": "Portfolio Management",
+    "level": "Level 1",
+    "description": "Modern portfolio theory, CAPM, and the investment policy statement."
+  }
+]

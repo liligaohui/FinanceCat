@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study — FinanceCat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf8f4;--warm:#fff9f3;--ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --gold:#b45309;--gold-bg:#fef3c7;
+  --rose:#be185d;--rose-bg:#fdf2f8;
+  --teal:#0f766e;--teal-bg:#ccfbf1;
+  --slate:#334155;--slate-bg:#f1f5f9;
+  --border:#e8e0d5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:var(--warm);position:sticky;top:0;z-index:50}
+.brand{font-family:'Lora',serif;font-size:17px;font-weight:600;display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:1.75rem;font-size:13px;color:var(--ink2)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--ink);font-weight:500}
+
+.page{max-width:900px;margin:0 auto;padding:3rem 2rem}
+.page-title{font-family:'Lora',serif;font-size:30px;font-weight:600;margin-bottom:.4rem}
+.page-sub{font-size:14px;color:var(--ink2);margin-bottom:2.5rem;line-height:1.6}
+
+/* Subject tabs */
+.subj-tabs{display:flex;gap:6px;margin-bottom:2.5rem;flex-wrap:wrap}
+.subj-tab{font-size:13px;font-weight:500;padding:7px 16px;border-radius:8px;border:1.5px solid var(--border);background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.subj-tab:hover{color:var(--ink);border-color:#bbb}
+.subj-tab.active-cfa{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.subj-tab.active-frm{background:var(--rose-bg);border-color:var(--rose);color:var(--rose)}
+.subj-tab.active-quant{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.subj-tab.active-general{background:var(--slate-bg);border-color:var(--slate);color:var(--slate)}
+
+/* Level groups */
+.level-group{margin-bottom:1.75rem}
+.level-label{font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);margin-bottom:.65rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.chapter-list{display:flex;flex-direction:column;gap:5px}
+.ch-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.85rem 1.1rem;cursor:pointer;transition:all .15s}
+.ch-row:hover{border-color:#bbb;transform:translateX(3px)}
+.ch-num{font-size:11px;font-weight:600;color:var(--ink3);width:22px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.ch-body{flex:1;min-width:0}
+.ch-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.ch-desc{font-size:12px;color:var(--ink3);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;flex-shrink:0}
+.ch-arrow{color:var(--ink3);font-size:15px;flex-shrink:0;transition:transform .15s}
+.ch-row:hover .ch-arrow{transform:translateX(3px)}
+
+.loading{text-align:center;padding:3rem;color:var(--ink3);font-size:14px}
+footer{border-top:1px solid var(--border);padding:1.4rem 2.5rem;font-size:12px;color:var(--ink3);text-align:center;margin-top:3rem}
+
+@media(max-width:600px){
+  nav{padding:1rem 1.25rem}
+  .page{padding:2rem 1.25rem}
+  .ch-desc{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">🐱 FinanceCat</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="study.html" class="active">Study</a>
+    <a href="cats.html">Cat album</a>
+  </div>
+</nav>
+
+<div class="page">
+  <h1 class="page-title">Study notes</h1>
+  <p class="page-sub">Pick a subject below, then select a chapter. Each page covers key concepts, formulas, and exam tips.</p>
+
+  <div class="subj-tabs">
+    <button class="subj-tab" id="tab-cfa"     onclick="setSubject('cfa')">📊 CFA Program</button>
+    <button class="subj-tab" id="tab-frm"     onclick="setSubject('frm')">⚠️ FRM Program</button>
+    <button class="subj-tab" id="tab-quant"   onclick="setSubject('quant')">∑ Quant Finance</button>
+    <button class="subj-tab" id="tab-general" onclick="setSubject('general')">📖 General Finance</button>
+  </div>
+
+  <div id="chapter-area"><div class="loading">Loading…</div></div>
+</div>
+
+<footer>FinanceCat · Hosted on GitHub Pages</footer>
+
+<script>
+const SUBJECTS = {
+  cfa:     {label:'CFA Program',        color:'gold',    tagBg:'var(--gold-bg)',    tagTxt:'var(--gold)'},
+  frm:     {label:'FRM Program',        color:'rose',    tagBg:'var(--rose-bg)',    tagTxt:'var(--rose)'},
+  quant:   {label:'Quant Finance',      color:'teal',    tagBg:'var(--teal-bg)',    tagTxt:'var(--teal)'},
+  general: {label:'General Finance',    color:'slate',   tagBg:'var(--slate-bg)',   tagTxt:'var(--slate)'},
+};
+
+let current = 'cfa';
+
+function setSubject(s) {
+  current = s;
+  // reset all tabs
+  Object.keys(SUBJECTS).forEach(k => {
+    document.getElementById('tab-'+k).className = 'subj-tab';
+  });
+  document.getElementById('tab-'+s).className = 'subj-tab active-'+s;
+  history.replaceState(null,'',`study.html?subject=${s}`);
+  loadChapters(s);
+}
+
+function loadChapters(s) {
+  document.getElementById('chapter-area').innerHTML = '<div class="loading">Loading…</div>';
+  fetch(`content/${s}/index.json`)
+    .then(r => { if(!r.ok) throw new Error(); return r.json(); })
+    .then(chs => renderChapters(chs, s))
+    .catch(() => {
+      document.getElementById('chapter-area').innerHTML =
+        '<div class="loading">Could not load chapters. Make sure <code>content/'+s+'/index.json</code> exists.</div>';
+    });
+}
+
+function renderChapters(chapters, s) {
+  const sub = SUBJECTS[s];
+  // group by level
+  const groups = {};
+  chapters.forEach((ch, i) => {
+    const g = ch.level || 'Chapters';
+    if (!groups[g]) groups[g] = [];
+    groups[g].push({...ch, n: i+1});
+  });
+
+  document.getElementById('chapter-area').innerHTML = Object.entries(groups).map(([level, chs]) => `
+    <div class="level-group">
+      <div class="level-label">${level}</div>
+      <div class="chapter-list">
+        ${chs.map(ch => `
+          <div class="ch-row" onclick="go('${s}','${ch.id}')">
+            <div class="ch-num">${String(ch.n).padStart(2,'0')}</div>
+            <div class="ch-body">
+              <div class="ch-title">${ch.title}</div>
+              ${ch.description ? `<div class="ch-desc">${ch.description}</div>` : ''}
+            </div>
+            <span class="ch-tag" style="background:${sub.tagBg};color:${sub.tagTxt}">${level}</span>
+            <div class="ch-arrow">›</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function go(subject, id) {
+  window.location.href = `chapter.html?subject=${subject}&id=${id}`;
+}
+
+// init from URL
+const p = new URLSearchParams(location.search);
+setSubject(p.get('subject') || 'cfa');
+</script>
+</body>
+</html>

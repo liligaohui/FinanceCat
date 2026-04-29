@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinanceCat — CFA, FRM & Quant Finance Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf8f4;--warm:#fff9f3;--ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --gold:#b45309;--gold-bg:#fef3c7;
+  --teal:#0f766e;--teal-bg:#ccfbf1;
+  --rose:#be185d;--rose-bg:#fdf2f8;
+  --slate:#334155;--slate-bg:#f1f5f9;
+  --border:#e8e0d5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:var(--warm);position:sticky;top:0;z-index:50}
+.brand{font-family:'Lora',serif;font-size:17px;font-weight:600;display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:1.75rem;font-size:13px;color:var(--ink2)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--ink);font-weight:500}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1fr 400px;min-height:440px;border-bottom:1px solid var(--border)}
+.hero-text{padding:4rem 3rem 4rem 2.5rem;background:var(--warm);display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
+.hero-title{font-family:'Lora',serif;font-size:40px;line-height:1.2;font-weight:600;margin-bottom:1.1rem}
+.hero-title em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:15px;line-height:1.75;color:var(--ink2);max-width:420px;margin-bottom:2rem}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;padding:9px 20px;border-radius:8px;border:1.5px solid transparent;transition:all .15s;cursor:pointer}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:#333}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--ink2)}
+.btn-outline:hover{border-color:#bbb;color:var(--ink)}
+.hero-img{background:#e8e0d5;position:relative;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;color:var(--ink3);font-size:13px;text-align:center;padding:2rem}
+.hero-placeholder .icon{font-size:56px}
+.cat-caption{position:absolute;bottom:.85rem;right:.85rem;background:rgba(28,25,23,.65);color:#fff;font-size:11px;padding:3px 10px;border-radius:20px}
+
+/* Subjects */
+.subjects{padding:3.5rem 2.5rem}
+.sec-eyebrow{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem}
+.sec-title{font-family:'Lora',serif;font-size:26px;font-weight:600;margin-bottom:2rem}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.subj-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.6rem;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;display:block}
+.subj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.subj-card.cfa::before{background:var(--gold)}
+.subj-card.frm::before{background:var(--rose)}
+.subj-card.quant::before{background:var(--teal)}
+.subj-card.general::before{background:var(--slate)}
+.subj-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.subj-icon{font-size:26px;margin-bottom:.85rem}
+.subj-name{font-family:'Lora',serif;font-size:17px;font-weight:600;margin-bottom:.4rem}
+.subj-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:1.1rem}
+.subj-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.tag-gold{background:var(--gold-bg);color:var(--gold)}
+.tag-rose{background:var(--rose-bg);color:var(--rose)}
+.tag-teal{background:var(--teal-bg);color:var(--teal)}
+.tag-slate{background:var(--slate-bg);color:var(--slate)}
+.subj-arrow{position:absolute;bottom:1.6rem;right:1.6rem;color:var(--ink3);transition:transform .15s}
+.subj-card:hover .subj-arrow{transform:translateX(4px)}
+
+/* Cat teaser */
+.cat-strip{background:var(--warm);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2.75rem 2.5rem;display:flex;align-items:center;gap:3rem}
+.cat-strip-text{flex:1}
+.cat-strip-text h2{font-family:'Lora',serif;font-size:22px;margin-bottom:.5rem}
+.cat-strip-text p{font-size:14px;color:var(--ink2);line-height:1.65}
+.cat-strip-text a{color:var(--teal);font-weight:500}
+.cat-thumbs{display:flex;gap:8px;flex-shrink:0}
+.cat-thumb{width:68px;height:68px;border-radius:10px;object-fit:cover;border:2px solid #fff}
+.cat-thumb-ph{width:68px;height:68px;border-radius:10px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:22px}
+
+/* About */
+.about{padding:3rem 2.5rem;max-width:660px}
+.about h2{font-family:'Lora',serif;font-size:20px;margin-bottom:.65rem}
+.about p{font-size:14px;color:var(--ink2);line-height:1.75}
+
+footer{border-top:1px solid var(--border);padding:1.4rem 2.5rem;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink3)}
+
+@media(max-width:760px){
+  nav{padding:1rem 1.25rem}
+  .nav-links{gap:1.1rem;font-size:12px}
+  .hero{grid-template-columns:1fr}
+  .hero-img{height:240px}
+  .hero-text{padding:2.5rem 1.25rem}
+  .hero-title{font-size:28px}
+  .subjects{padding:2.5rem 1.25rem}
+  .cat-strip{flex-direction:column;padding:2rem 1.25rem;gap:1.25rem}
+  .about{padding:2rem 1.25rem}
+  footer{padding:1.25rem;flex-direction:column;gap:.4rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">🐱 FinanceCat</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="study.html">Study</a>
+    <a href="cats.html">Cat album</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">CFA · FRM · Quant Finance · Study notes</div>
+    <h1 class="hero-title">Finance, explained<br><em>with a little help</em><br>from my cat.</h1>
+    <p class="hero-sub">Clear, structured notes for CFA, FRM, and quantitative finance. Built for real understanding — not just cramming.</p>
+    <div class="hero-btns">
+      <a href="study.html" class="btn btn-dark">Start studying →</a>
+      <a href="cats.html" class="btn btn-outline">Meet the cat</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="hero-placeholder" id="hero-area">
+      <div class="icon">🐱</div>
+      <p>Add photos to <code>cats/</code><br>and update <code>cats/index.json</code></p>
+    </div>
+  </div>
+</div>
+
+<section class="subjects">
+  <div class="sec-eyebrow">Choose your subject</div>
+  <h2 class="sec-title">What would you like to study?</h2>
+  <div class="subject-grid">
+    <a href="study.html?subject=cfa" class="subj-card cfa">
+      <div class="subj-icon">📊</div>
+      <div class="subj-name">CFA Program</div>
+      <p class="subj-desc">All three levels — ethics, equity, fixed income, derivatives, portfolio management, and more.</p>
+      <div class="subj-tags">
+        <span class="tag tag-gold">Level 1</span>
+        <span class="tag tag-gold">Level 2</span>
+        <span class="tag tag-gold">Level 3</span>
+      </div>
+      <div class="subj-arrow">→</div>
+    </a>
+    <a href="study.html?subject=frm" class="subj-card frm">
+      <div class="subj-icon">⚠️</div>
+      <div class="subj-name">FRM Program</div>
+      <p class="subj-desc">Financial Risk Manager — market risk, credit risk, operational risk, and quantitative analysis.</p>
+      <div class="subj-tags">
+        <span class="tag tag-rose">Part 1</span>
+        <span class="tag tag-rose">Part 2</span>
+      </div>
+      <div class="subj-arrow">→</div>
+    </a>
+    <a href="study.html?subject=quant" class="subj-card quant">
+      <div class="subj-icon">∑</div>
+      <div class="subj-name">Quantitative Finance</div>
+      <p class="subj-desc">Probability, stochastic calculus, options pricing, risk models, and machine learning in finance.</p>
+      <div class="subj-tags">
+        <span class="tag tag-teal">Foundations</span>
+        <span class="tag tag-teal">Intermediate</span>
+        <span class="tag tag-teal">Advanced</span>
+      </div>
+      <div class="subj-arrow">→</div>
+    </a>
+    <a href="study.html?subject=general" class="subj-card general">
+      <div class="subj-icon">📖</div>
+      <div class="subj-name">General Finance</div>
+      <p class="subj-desc">Core concepts that apply across all exams — time value of money, financial statements, and portfolio theory.</p>
+      <div class="subj-tags">
+        <span class="tag tag-slate">Core concepts</span>
+      </div>
+      <div class="subj-arrow">→</div>
+    </a>
+  </div>
+</section>
+
+<div class="cat-strip">
+  <div class="cat-strip-text">
+    <h2>And when studying gets too much…</h2>
+    <p>There's always the cat album. My cat has very strong opinions about duration risk.<br>
+    <a href="cats.html">View the album →</a></p>
+  </div>
+  <div class="cat-thumbs" id="cat-thumbs">
+    <div class="cat-thumb-ph">🐱</div>
+    <div class="cat-thumb-ph">😸</div>
+    <div class="cat-thumb-ph">🐾</div>
+  </div>
+</div>
+
+<div class="about">
+  <h2>About this site</h2>
+  <p>These are my personal study notes, made public because good free materials should exist. Content is updated chapter by chapter as I work through each topic. The site is hosted on GitHub Pages — chapters are plain Markdown files, so adding new content is as simple as uploading a text file.</p>
+</div>
+
+<footer>
+  <span>FinanceCat — notes by a finance nerd and their cat</span>
+  <span>Hosted on GitHub Pages · Open source</span>
+</footer>
+
+<script>
+fetch('cats/index.json')
+  .then(r=>r.json())
+  .then(cats=>{
+    if(!cats.length)return;
+    const pick=cats[Math.floor(Math.random()*cats.length)];
+    document.getElementById('hero-area').innerHTML=
+      `<img src="cats/${pick}" alt="My cat" style="width:100%;height:100%;object-fit:cover;display:block">
+       <div class="cat-caption">${pick.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ')}</div>`;
+    const shuffled=[...cats].sort(()=>Math.random()-.5).slice(0,3);
+    document.getElementById('cat-thumbs').innerHTML=shuffled.map(c=>
+      `<img src="cats/${c}" alt="" class="cat-thumb" onerror="this.style.display='none'">`
+    ).join('');
+  }).catch(()=>{});
+</script>
+</body>
+</html>

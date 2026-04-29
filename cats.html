@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cat Album — FinanceCat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#faf8f4;--warm:#fff9f3;--ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;--border:#e8e0d5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:var(--warm);position:sticky;top:0;z-index:50}
+.brand{font-family:'Lora',serif;font-size:17px;font-weight:600;display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:1.75rem;font-size:13px;color:var(--ink2)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--ink);font-weight:500}
+
+/* Hero */
+.hero{padding:3.5rem 2rem;text-align:center;background:linear-gradient(135deg,#fdf2f8 0%,#fef9ee 50%,#f0fdf8 100%);border-bottom:1px solid var(--border)}
+.hero h1{font-family:'Caveat',cursive;font-size:52px;font-weight:700;margin-bottom:.5rem}
+.hero p{font-size:14px;color:var(--ink2);line-height:1.65;max-width:400px;margin:0 auto 1.25rem}
+.emoji-row{display:flex;justify-content:center;gap:.85rem;font-size:26px}
+.emoji-row span{animation:float 2.4s ease-in-out infinite}
+.emoji-row span:nth-child(2){animation-delay:.3s}
+.emoji-row span:nth-child(3){animation-delay:.6s}
+.emoji-row span:nth-child(4){animation-delay:.9s}
+.emoji-row span:nth-child(5){animation-delay:1.2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* Gallery */
+.gallery-wrap{max-width:960px;margin:0 auto;padding:3rem 2rem}
+.gallery-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.5rem}
+.gallery-top h2{font-family:'Caveat',cursive;font-size:28px}
+.count{font-size:13px;color:var(--ink3)}
+
+/* Masonry */
+.masonry{columns:3;column-gap:12px}
+.masonry-item{break-inside:avoid;margin-bottom:12px;cursor:pointer}
+.masonry-img{width:100%;display:block;border-radius:10px;transition:transform .18s}
+.masonry-item:hover .masonry-img{transform:scale(1.02)}
+.masonry-label{font-family:'Caveat',cursive;font-size:14px;color:var(--ink3);margin-top:4px;padding:0 3px}
+.ph-box{background:linear-gradient(135deg,#fdf2f8,#fef9ee);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;gap:.5rem;border:2px dashed var(--border);text-align:center;font-size:12px;color:var(--ink3)}
+
+/* How to */
+.how-to{background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-top:2.5rem;font-size:13px;color:var(--ink2);line-height:1.8}
+.how-to strong{color:var(--ink);display:block;margin-bottom:.4rem}
+.how-to code{background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:4px}
+
+/* Lightbox */
+.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;align-items:center;justify-content:center;padding:2rem}
+.lb.open{display:flex}
+.lb-inner{position:relative;max-width:820px;width:100%;text-align:center}
+.lb-img{max-width:100%;max-height:82vh;border-radius:14px;object-fit:contain;display:block;margin:0 auto}
+.lb-close{position:absolute;top:-2.2rem;right:0;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;line-height:1}
+.lb-close:hover{color:#fff}
+.lb-caption{font-family:'Caveat',cursive;font-size:22px;color:rgba(255,255,255,.8);margin-top:.75rem}
+.lb-btns{display:flex;justify-content:center;gap:.75rem;margin-top:.85rem}
+.lb-btns button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:7px 20px;border-radius:20px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif}
+.lb-btns button:hover{background:rgba(255,255,255,.25)}
+
+.empty{text-align:center;padding:4rem 2rem}
+.empty h2{font-family:'Caveat',cursive;font-size:32px;margin-bottom:.75rem}
+.empty p{font-size:14px;color:var(--ink3);line-height:1.7}
+.empty code{background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:4px}
+
+footer{border-top:1px solid var(--border);padding:1.4rem 2.5rem;font-size:12px;color:var(--ink3);text-align:center;margin-top:2rem}
+
+@media(max-width:620px){
+  nav{padding:1rem 1.25rem}
+  .hero h1{font-size:38px}
+  .gallery-wrap{padding:2rem 1rem}
+  .masonry{columns:2}
+}
+@media(max-width:380px){.masonry{columns:1}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">🐱 FinanceCat</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="study.html">Study</a>
+    <a href="cats.html" class="active">Cat album</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>The Official Cat Album</h1>
+  <p>Dedicated to the one who sat on my textbooks, knocked over my coffee, and still somehow helped me study.</p>
+  <div class="emoji-row">
+    <span>🐱</span><span>😸</span><span>🐾</span><span>😻</span><span>🐱</span>
+  </div>
+</div>
+
+<div class="gallery-wrap">
+  <div class="gallery-top">
+    <h2>All photos</h2>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="masonry" id="masonry">
+    <div style="column-span:all;text-align:center;padding:2rem;color:var(--ink3)">Loading…</div>
+  </div>
+
+  <div class="how-to">
+    <strong>How to add cat photos</strong>
+    1. Put your photo files (JPG, PNG, WEBP) into the <code>cats/</code> folder in your GitHub repo.<br>
+    2. Open <code>cats/index.json</code> and add each filename to the array:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<code>["sleeping-on-textbook.jpg", "monday-morning.jpg", "exam-panic.png"]</code><br>
+    3. Push to GitHub — photos appear here and on the homepage automatically.<br><br>
+    <strong>Tip:</strong> Name your files descriptively with hyphens — the filename becomes the photo caption automatically.
+  </div>
+</div>
+
+<div class="lb" id="lb" onclick="closeLB(event)">
+  <div class="lb-inner">
+    <div class="lb-close" onclick="closeLB()">✕</div>
+    <img class="lb-img" id="lb-img" src="" alt="">
+    <div class="lb-caption" id="lb-cap"></div>
+    <div class="lb-btns">
+      <button onclick="nav(-1);event.stopPropagation()">← Prev</button>
+      <button onclick="nav(1);event.stopPropagation()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<footer>FinanceCat · Cat photos are the best study breaks</footer>
+
+<script>
+let photos = [], cur = 0;
+
+fetch('cats/index.json')
+  .then(r => r.json())
+  .then(list => {
+    photos = list;
+    document.getElementById('count').textContent = list.length + ' photo' + (list.length !== 1 ? 's' : '');
+    if (!list.length) {
+      document.getElementById('masonry').innerHTML =
+        `<div class="empty" style="column-span:all"><h2>No photos yet!</h2>
+         <p>Add photos to <code>cats/</code> and list them in <code>cats/index.json</code>.</p></div>`;
+      return;
+    }
+    document.getElementById('masonry').innerHTML = list.map((f, i) => {
+      const name = f.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+      return `<div class="masonry-item" onclick="open(${i})">
+        <img class="masonry-img" src="cats/${f}" alt="${name}" loading="lazy"
+          onerror="this.parentElement.innerHTML='<div class=ph-box><div style=font-size:32px>🐱</div><p>${f}</p></div>'">
+        <div class="masonry-label">${name}</div>
+      </div>`;
+    }).join('');
+  })
+  .catch(() => {
+    document.getElementById('masonry').innerHTML =
+      `<div class="empty" style="column-span:all"><h2>No photos yet!</h2>
+       <p>Add photos to <code>cats/</code> and list them in <code>cats/index.json</code>.</p></div>`;
+    document.getElementById('count').textContent = '0 photos';
+  });
+
+function open(i) {
+  cur = i;
+  const f = photos[i];
+  document.getElementById('lb-img').src = 'cats/' + f;
+  document.getElementById('lb-cap').textContent = f.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB(e) {
+  if (e && e.target !== document.getElementById('lb') && !e.target.classList.contains('lb-close')) return;
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function nav(d) {
+  cur = (cur + d + photos.length) % photos.length;
+  open(cur);
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lb').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') nav(-1);
+  if (e.key === 'ArrowRight') nav(1);
+  if (e.key === 'Escape') closeLB({target: document.getElementById('lb')});
+});
+</script>
+</body>
+</html>

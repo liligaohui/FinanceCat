@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter — FinanceCat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root{
+  --cream:#faf8f4;--warm:#fff9f3;--ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --gold:#b45309;--gold-bg:#fef3c7;
+  --rose:#be185d;--rose-bg:#fdf2f8;
+  --teal:#0f766e;--teal-bg:#ccfbf1;
+  --slate:#334155;--slate-bg:#f1f5f9;
+  --border:#e8e0d5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:var(--warm);position:sticky;top:0;z-index:50}
+.brand{font-family:'Lora',serif;font-size:17px;font-weight:600;display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;gap:1.75rem;font-size:13px;color:var(--ink2)}
+.nav-links a:hover{color:var(--ink)}
+
+/* Two-column layout */
+.layout{display:grid;grid-template-columns:230px 1fr;max-width:1080px;margin:0 auto;min-height:calc(100vh - 56px)}
+
+/* Sidebar */
+.sidebar{border-right:1px solid var(--border);background:var(--warm);padding:1.75rem 1rem;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sb-back{font-size:12px;color:var(--ink3);cursor:pointer;display:flex;align-items:center;gap:4px;margin-bottom:1.25rem;padding:.4rem .5rem;border-radius:6px;transition:all .12s}
+.sb-back:hover{background:var(--border);color:var(--ink)}
+.sb-subject{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.85rem;padding:0 .5rem}
+.sb-level{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);opacity:.6;margin:.9rem .5rem .25rem}
+.sb-item{font-size:12px;padding:.45rem .65rem;border-radius:6px;cursor:pointer;color:var(--ink2);line-height:1.4;transition:all .1s;display:block}
+.sb-item:hover{background:var(--border);color:var(--ink)}
+.sb-item.active{font-weight:500}
+.sb-item.active-cfa{background:var(--gold-bg);color:var(--gold)}
+.sb-item.active-frm{background:var(--rose-bg);color:var(--rose)}
+.sb-item.active-quant{background:var(--teal-bg);color:var(--teal)}
+.sb-item.active-general{background:var(--slate-bg);color:var(--slate)}
+
+/* Main content */
+.content{padding:2.75rem 3.5rem;max-width:740px}
+.breadcrumb{font-size:12px;color:var(--ink3);margin-bottom:.85rem;display:flex;align-items:center;gap:4px}
+.breadcrumb a{color:var(--ink3)}
+.breadcrumb a:hover{color:var(--ink)}
+.ch-level-tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;margin-bottom:1.5rem}
+
+/* Markdown */
+.md{line-height:1.78;font-size:15px;color:var(--ink)}
+.md h1{font-family:'Lora',serif;font-size:28px;font-weight:600;margin-bottom:1rem;line-height:1.25}
+.md h2{font-family:'Lora',serif;font-size:19px;font-weight:600;margin:2.25rem 0 .8rem;padding-bottom:.45rem;border-bottom:1px solid var(--border)}
+.md h3{font-size:15px;font-weight:500;margin:1.6rem 0 .5rem}
+.md p{margin-bottom:1rem}
+.md ul,.md ol{margin:0 0 1rem 1.5rem}
+.md li{margin-bottom:.3rem;line-height:1.65}
+.md strong{font-weight:600}
+.md code{font-family:'Courier New',monospace;font-size:12.5px;background:#f1ebe1;padding:2px 5px;border-radius:4px;color:var(--gold)}
+.md pre{background:#1c1917;color:#faf8f4;padding:1.25rem;border-radius:10px;overflow-x:auto;margin:1.1rem 0;font-size:13px;line-height:1.6}
+.md pre code{background:none;padding:0;color:inherit;font-size:13px}
+.md blockquote{border-left:3px solid;padding:.7rem 1rem .7rem 1.1rem;border-radius:0 8px 8px 0;margin:1.1rem 0;font-style:italic;color:var(--ink2)}
+.md table{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:13px}
+.md th{text-align:left;padding:.55rem .8rem;border:1px solid var(--border);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink3);background:var(--warm)}
+.md td{padding:.55rem .8rem;border:1px solid var(--border);color:var(--ink2)}
+.md tr:hover td{background:var(--cream)}
+.md hr{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
+
+/* Prev / next */
+.ch-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:3.5rem;padding-top:1.75rem;border-top:1px solid var(--border)}
+.ch-nav-btn{display:flex;flex-direction:column;gap:3px;padding:.8rem 1rem;background:#fff;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:border-color .15s;max-width:200px}
+.ch-nav-btn:hover{border-color:#bbb}
+.ch-nav-btn.right{text-align:right;margin-left:auto}
+.nav-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);font-weight:500}
+.nav-ttl{font-size:13px;font-weight:500;color:var(--ink);line-height:1.35}
+
+.loading{padding:3rem;color:var(--ink3);font-size:14px}
+.not-written{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:1.5rem;margin-top:1rem;font-size:14px;color:var(--ink2);line-height:1.7}
+.not-written code{background:var(--gold-bg);color:var(--gold);padding:2px 6px;border-radius:4px;font-size:13px}
+
+footer{border-top:1px solid var(--border);padding:1.4rem 2.5rem;font-size:12px;color:var(--ink3);text-align:center}
+
+@media(max-width:720px){
+  nav{padding:1rem 1.25rem}
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .content{padding:1.75rem 1.25rem;max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">🐱 FinanceCat</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="study.html">Study</a>
+    <a href="cats.html">Cat album</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar">
+    <div class="sb-back" onclick="window.location.href='study.html?subject='+subject">← All chapters</div>
+    <div class="sb-subject" id="sb-subject"></div>
+    <div id="sb-list"></div>
+  </div>
+
+  <div class="content">
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <div class="ch-level-tag" id="level-tag"></div>
+    <div class="md" id="md-body"><div class="loading">Loading chapter…</div></div>
+    <div class="ch-nav" id="ch-nav"></div>
+  </div>
+</div>
+
+<footer>FinanceCat · Hosted on GitHub Pages</footer>
+
+<script>
+const SUBJECTS = {
+  cfa:     {label:'CFA Program',     accent:'var(--gold)',  accentBg:'var(--gold-bg)',  cls:'active-cfa'},
+  frm:     {label:'FRM Program',     accent:'var(--rose)',  accentBg:'var(--rose-bg)',  cls:'active-frm'},
+  quant:   {label:'Quant Finance',   accent:'var(--teal)',  accentBg:'var(--teal-bg)',  cls:'active-quant'},
+  general: {label:'General Finance', accent:'var(--slate)', accentBg:'var(--slate-bg)', cls:'active-general'},
+};
+
+const params = new URLSearchParams(location.search);
+const subject = params.get('subject') || 'cfa';
+const chId    = params.get('id') || 'overview';
+const sub     = SUBJECTS[subject] || SUBJECTS.cfa;
+let allChapters = [];
+
+// Set blockquote border color to subject accent
+document.head.insertAdjacentHTML('beforeend',
+  `<style>.md blockquote{border-color:${sub.accent};background:${sub.accentBg}}</style>`);
+
+fetch(`content/${subject}/index.json`)
+  .then(r => { if(!r.ok) throw new Error(); return r.json(); })
+  .then(chs => {
+    allChapters = chs;
+    renderSidebar(chs);
+    loadChapter(chId, chs);
+  })
+  .catch(() => {
+    document.getElementById('md-body').innerHTML =
+      `<div class="not-written">Could not load chapter list for <code>content/${subject}/index.json</code>.</div>`;
+  });
+
+function renderSidebar(chs) {
+  document.getElementById('sb-subject').textContent = sub.label;
+  const groups = {};
+  chs.forEach(ch => {
+    const g = ch.level || 'Chapters';
+    if (!groups[g]) groups[g] = [];
+    groups[g].push(ch);
+  });
+  document.getElementById('sb-list').innerHTML = Object.entries(groups).map(([level, items]) => `
+    <div class="sb-level">${level}</div>
+    ${items.map(ch => `
+      <div class="sb-item ${ch.id===chId ? sub.cls : ''}"
+           onclick="window.location.href='chapter.html?subject=${subject}&id=${ch.id}'">
+        ${ch.title}
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function loadChapter(id, chs) {
+  const ch  = chs.find(c => c.id === id);
+  const idx = chs.findIndex(c => c.id === id);
+
+  // breadcrumb
+  document.getElementById('breadcrumb').innerHTML =
+    `<a href="study.html?subject=${subject}">${sub.label}</a> › ${ch ? ch.level : ''}`;
+
+  // level tag
+  const tag = document.getElementById('level-tag');
+  tag.textContent = ch ? ch.level : '';
+  tag.style.background = sub.accentBg;
+  tag.style.color = sub.accent;
+
+  // fetch markdown
+  fetch(`content/${subject}/${id}.md`)
+    .then(r => { if(!r.ok) throw new Error(); return r.text(); })
+    .then(md => {
+      document.getElementById('md-body').innerHTML = marked.parse(md);
+      document.title = (ch ? ch.title : 'Chapter') + ' — FinanceCat';
+    })
+    .catch(() => {
+      document.getElementById('md-body').innerHTML = `
+        <h1>${ch ? ch.title : id}</h1>
+        <div class="not-written">
+          This chapter hasn't been written yet.<br><br>
+          To add content, create the file:<br>
+          <code>content/${subject}/${id}.md</code><br><br>
+          Write your notes in Markdown, save the file, and push to GitHub. This page will render it automatically — no code changes needed.
+        </div>`;
+      document.title = (ch ? ch.title : 'Chapter') + ' — FinanceCat';
+    });
+
+  // prev / next nav
+  const prev = idx > 0 ? chs[idx-1] : null;
+  const next = idx < chs.length-1 ? chs[idx+1] : null;
+  document.getElementById('ch-nav').innerHTML = `
+    ${prev ? `<div class="ch-nav-btn" onclick="window.location.href='chapter.html?subject=${subject}&id=${prev.id}'">
+      <div class="nav-lbl">← Previous</div>
+      <div class="nav-ttl">${prev.title}</div>
+    </div>` : '<div></div>'}
+    ${next ? `<div class="ch-nav-btn right" onclick="window.location.href='chapter.html?subject=${subject}&id=${next.id}'">
+      <div class="nav-lbl">Next →</div>
+      <div class="nav-ttl">${next.title}</div>
+    </div>` : '<div></div>'}`;
+}
+</script>
+</body>
+</html>
